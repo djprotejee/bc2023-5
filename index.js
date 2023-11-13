@@ -1,10 +1,11 @@
 const express = require('express');
 const multer = require('multer');
 const fs = require('fs');
-const app = express();
 
+const app = express();
 const upload = multer({ dest: 'upload/' });
 const notesFilePath = 'notes.json';
+app.use(express.json());
 
 // Створення JSON файлу, якщо його не існує
 if (!fs.existsSync(notesFilePath)) {
@@ -64,15 +65,15 @@ app.get('/notes/:noteName', (req, res) => {
     });
 
 // Запит PUT /notes/:noteName
-app.put('/notes/:noteName', upload.none(), (req, res) => {
+app.put('/notes/:noteName', express.text(), (req, res) => {
     const noteName = req.params.noteName;
-    const updatedNoteText = req.body.note;
+    const updatedNoteText = req.body;
 
-    let notes = JSON.parse(fs.readFileSync(notesFilePath, 'utf8'));
-    const noteIndex = notes.findIndex((data) => data.note_name === noteName);
+    const notes = JSON.parse(fs.readFileSync(notesFilePath, 'utf8'));
+    const noteToUpdate = notes.find((data) => data.note_name === noteName);
 
-    if (noteIndex !== -1) {
-        notes[noteIndex].note_text = updatedNoteText;
+    if (noteToUpdate) {
+        noteToUpdate.note_text = updatedNoteText; 
         fs.writeFileSync(notesFilePath, JSON.stringify(notes, null, 2), 'utf8');
         res.status(200).send('200: Нотатку оновлено успішно.');
     } else {

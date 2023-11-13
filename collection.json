@@ -153,19 +153,13 @@
 			"response": []
 		},
 		{
-			"name": "New Request",
+			"name": "no",
 			"request": {
 				"method": "PUT",
 				"header": [],
 				"body": {
-					"mode": "formdata",
-					"formdata": [
-						{
-							"key": "note",
-							"value": "IT IS UPDATED.",
-							"type": "text"
-						}
-					]
+					"mode": "raw",
+					"raw": "IT IS UPDATED.\n\n"
 				},
 				"url": {
 					"raw": "http://localhost:8000/notes/no",
@@ -183,7 +177,7 @@
 			"response": []
 		},
 		{
-			"name": "New Request",
+			"name": "no",
 			"request": {
 				"method": "DELETE",
 				"header": [],
